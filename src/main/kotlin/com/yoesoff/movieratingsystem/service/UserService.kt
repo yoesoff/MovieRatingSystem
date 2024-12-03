@@ -12,4 +12,5 @@ class UserService(private val userRepository: UserRepository) {
     fun getUserFromUserDetails(userDetails: UserDetails): User? {
         return userRepository.findByUsername(userDetails.username)
     }
+
 }

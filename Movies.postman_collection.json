@@ -1,0 +1,460 @@
+{
+	"info": {
+		"_postman_id": "f90376a1-a645-476f-9973-5e8ddcf44cfe",
+		"name": "Movies",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26625601",
+		"_collection_link": "https://orange-satellite-484597.postman.co/workspace/MovieRating~2eda462b-6a33-4ce1-9e9c-ed05a349b251/collection/26625601-f90376a1-a645-476f-9973-5e8ddcf44cfe?action=share&source=collection_link&creator=26625601"
+	},
+	"item": [
+		{
+			"name": "Security",
+			"item": [
+				{
+					"name": "POST User",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{passwordYusuf}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "yusuf",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"username\": \"newuser\", \n    \"password\": \"password123\", \n    \"email\": \"newuser@example.com\" \n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/users",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET User",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{passwordYusuf}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "yusuf",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/users",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DOOR",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{passwordYusuf}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "yusuf",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/users/door",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"users",
+								"door"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST Movie Create",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{passwordYusuf}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "yusuf",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Inception\",\n    \"description\": \"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.\",\n    \"releaseDate\": \"2010-07-16\",\n    \"director\": \"Kokom\",\n    \"genre\": \"Horro\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/api/movies",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"api",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Movies",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{passwordYusuf}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "yusuf",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base}}/api/movies",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"api",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Movies by ID",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "yusuf123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "yusuf",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base}}/api/movies/1",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"api",
+						"movies",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Movies by Search",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "yusuf123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "yusuf",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base}}/api/movies/search?title=budi&director=budi&genre=budi",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"api",
+						"movies",
+						"search"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "budi"
+						},
+						{
+							"key": "director",
+							"value": "budi"
+						},
+						{
+							"key": "genre",
+							"value": "budi"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Movie Rate",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "yusuf123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "yusuf",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rating\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/api/movies/1/rate",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"api",
+						"movies",
+						"1",
+						"rate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Movie Review",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{passwordYusuf}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "yusuf",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reviewText\": \"Very lorem ipsum movie, excelent!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/api/movies/1/review",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"api",
+						"movies",
+						"1",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Movie Reviews",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{passwordYusuf}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "yusuf",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reviewText\": \"Very lorem ipsum movie, excelent!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/api/movies/1/reviews",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"api",
+						"movies",
+						"1",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Movie Top Rated",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{passwordYusuf}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "yusuf",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reviewText\": \"Very lorem ipsum movie, excelent!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/api/movies/top-rated",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"api",
+						"movies",
+						"top-rated"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

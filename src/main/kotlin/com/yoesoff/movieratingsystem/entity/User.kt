@@ -12,7 +12,7 @@ data class User(
     val username: String,
 
     @Column(nullable = false)
-    val password: String,
+    var password: String,
 
     @Column(nullable = false)
     val isEnabled: Boolean = true,

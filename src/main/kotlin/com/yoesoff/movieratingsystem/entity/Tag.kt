@@ -10,4 +10,7 @@ data class Tag(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     val name: String
-)
+) {
+    // No-arg constructor required by Hibernate
+    constructor() : this(null, "")
+}

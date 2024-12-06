@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder
 ) {
 
     fun getUserById(id: Long): User? {
@@ -19,14 +20,14 @@ class UserService(
         return userRepository.findAll()
     }
 
-//    fun updateUser(id: Long, user: User): User? {
-//        return if (userRepository.existsById(id)) {
-//            val updatedUser = user.copy(id = id, password = passwordEncoder.encode(user.password))
-//            userRepository.save(updatedUser)
-//        } else {
-//            null
-//        }
-//    }
+    fun updateUser(id: Long, user: User): User? {
+        return if (userRepository.existsById(id)) {
+            val updatedUser = user.copy(id = id, password = passwordEncoder.encode(user.password))
+            userRepository.save(updatedUser)
+        } else {
+            null
+        }
+    }
 
     fun deleteUser(id: Long): Boolean {
         return if (userRepository.existsById(id)) {
@@ -37,10 +38,10 @@ class UserService(
         }
     }
 
-//    fun saveUser(user: User): User {
-//        user.password = passwordEncoder.encode(user.password)
-//        return userRepository.save(user)
-//    }
+    fun saveUser(user: User): User {
+        user.password = passwordEncoder.encode(user.password)
+        return userRepository.save(user)
+    }
 
     fun getUserFromUserDetails(userDetails: UserDetails): User? {
         return userRepository.findByUsername(userDetails.username)

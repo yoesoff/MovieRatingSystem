@@ -15,4 +15,7 @@ data class Movie(
     val releaseDate: LocalDate,
     val director: String,
     val genre: String
-)
+) {
+    // No-arg constructor required by Hibernate
+    constructor() : this(null, "", "", LocalDate.now(), "", "")
+}

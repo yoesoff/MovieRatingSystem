@@ -9,4 +9,7 @@ data class Review(
     @ManyToOne val user: User,
     @ManyToOne val movie: Movie,
     val reviewText: String
-)
+) {
+    // No-arg constructor required by Hibernate
+    constructor() : this(null, User(), Movie(), "")
+}

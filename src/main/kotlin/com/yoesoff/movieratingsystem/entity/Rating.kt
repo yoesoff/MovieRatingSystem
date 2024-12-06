@@ -9,4 +9,7 @@ data class Rating(
     @ManyToOne val user: User,
     @ManyToOne val movie: Movie,
     var rating: Int
-)
+) {
+    // No-arg constructor required by Hibernate
+    constructor() : this(null, User(), Movie(), 0)
+}

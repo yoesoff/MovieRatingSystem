@@ -8,4 +8,7 @@ data class MovieTag(
     val id: Long? = null,
     @ManyToOne val movie: Movie,
     @ManyToOne val tag: Tag
-)
+) {
+    // No-arg constructor required by Hibernate]
+    constructor() : this(null, Movie(), Tag())
+}

@@ -36,16 +36,31 @@ class UserService(
      * Update a user in the database.
      *
      * @param id The ID of the user to update.
-     * @param user The updated user object.
-     * @return The updated user if found, null otherwise.
+     * @param updatedUser The updated user object.
+     * @return The updated user.
      */
-    fun updateUser(id: Long, user: User): User? {
-        return if (userRepository.existsById(id)) {
-            val updatedUser = user.copy(id = id, password = passwordEncoder.encode(user.password))
-            userRepository.save(updatedUser)
-        } else {
-            null
+    fun updateUser(id: Long, updatedUser: User): User {
+        // Fetch the existing user
+        val existingUser = userRepository.findById(id).orElseThrow {
+            IllegalArgumentException("User with ID $id not found")
         }
+
+        // Check if username exists for another user
+        if (updatedUser.username != existingUser.username &&
+            userRepository.existsByUsername(updatedUser.username)
+        ) {
+            throw IllegalArgumentException("Username '${updatedUser.username}' is already taken.")
+        }
+
+        // Update user properties
+        val userToUpdate = existingUser.copy(
+            username = updatedUser.username,
+            password = passwordEncoder.encode(updatedUser.password), // Encode new password
+            isEnabled = updatedUser.isEnabled,
+            roles = updatedUser.roles
+        )
+
+        return userRepository.save(userToUpdate)
     }
 
     /**

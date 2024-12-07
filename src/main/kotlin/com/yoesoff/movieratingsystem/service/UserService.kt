@@ -3,6 +3,7 @@ package com.yoesoff.movieratingsystem.service
 import com.yoesoff.movieratingsystem.entity.User
 import com.yoesoff.movieratingsystem.repository.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -12,14 +13,32 @@ class UserService(
     private val passwordEncoder: PasswordEncoder
 ) {
 
+    /**
+     * Get a user from the database using the given username.
+     *
+     * @param username The username of the user.
+     * @return The user if found, null otherwise.
+     */
     fun getUserById(id: Long): User? {
         return userRepository.findById(id).orElse(null)
     }
 
+    /**
+     * Get all users from the database.
+     *
+     * @return A list of all users.
+     */
     fun getAllUsers(): List<User> {
         return userRepository.findAll()
     }
 
+    /**
+     * Update a user in the database.
+     *
+     * @param id The ID of the user to update.
+     * @param user The updated user object.
+     * @return The updated user if found, null otherwise.
+     */
     fun updateUser(id: Long, user: User): User? {
         return if (userRepository.existsById(id)) {
             val updatedUser = user.copy(id = id, password = passwordEncoder.encode(user.password))
@@ -29,6 +48,12 @@ class UserService(
         }
     }
 
+    /**
+     * Delete a user from the database.
+     *
+     * @param id The ID of the user to delete.
+     * @return True if the user was deleted, false otherwise.
+     */
     fun deleteUser(id: Long): Boolean {
         return if (userRepository.existsById(id)) {
             userRepository.deleteById(id)
@@ -38,11 +63,29 @@ class UserService(
         }
     }
 
+    /**
+     * Save a new user to the database.
+     *
+     * @param user The user to save.
+     * @return The saved user.
+     */
     fun saveUser(user: User): User {
-        user.password = passwordEncoder.encode(user.password)
-        return userRepository.save(user)
+        // Check if the username already exists
+        if (userRepository.existsByUsername(user.username)) {
+            throw IllegalArgumentException("Username '${user.username}' is already taken.")
+        }
+
+        // Encode the password before saving
+        val encodedUser = user.copy(password = passwordEncoder.encode(user.password))
+        return userRepository.save(encodedUser)
     }
 
+    /**
+     * Get a user from the database using the given UserDetails object.
+     *
+     * @param userDetails The UserDetails object.
+     * @return The user if found, null otherwise.
+     */
     fun getUserFromUserDetails(userDetails: UserDetails): User? {
         return userRepository.findByUsername(userDetails.username)
     }

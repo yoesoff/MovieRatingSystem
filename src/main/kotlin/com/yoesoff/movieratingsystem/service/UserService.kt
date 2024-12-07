@@ -85,15 +85,15 @@ class UserService(
      * @return The saved user.
      */
     fun saveUser(user: User): User {
-        // Check if the username already exists
         if (userRepository.existsByUsername(user.username)) {
             throw IllegalArgumentException("Username '${user.username}' is already taken.")
         }
 
-        // Encode the password before saving
-        val encodedUser = user.copy(password = passwordEncoder.encode(user.password))
-        return userRepository.save(encodedUser)
+        val encodedPassword = passwordEncoder.encode(user.password)
+        user.password = encodedPassword
+        return userRepository.save(user)
     }
+
 
     /**
      * Get a user from the database using the given UserDetails object.

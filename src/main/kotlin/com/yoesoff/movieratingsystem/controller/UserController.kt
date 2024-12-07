@@ -16,8 +16,7 @@ class UserController(private val userService: UserService) {
 
     @PostMapping
     fun createUser(@Valid @RequestBody user: User): ResponseEntity<UserDTO> {
-        val encodedPassword = passwordEncoder.encode(user.password)
-        val savedUser = userService.saveUser(user.copy(password = encodedPassword))
+        val savedUser = userService.saveUser(user)
         return ResponseEntity.ok(UserDTO(savedUser.id, savedUser.username, savedUser.roles))
     }
 

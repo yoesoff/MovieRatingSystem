@@ -26,7 +26,12 @@ class SecurityConfig(
             .csrf { it.disable() } // Disable CSRF for simplicity (not recommended for production)
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/users").permitAll() // Permit POST /users for sign-up
+                    .requestMatchers(
+                        "/users",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
+                    ).permitAll() // Allow access to Swagger UI
+
                     .anyRequest().authenticated() // All other requests require authentication
             }
             .httpBasic { } // Enable Basic Auth

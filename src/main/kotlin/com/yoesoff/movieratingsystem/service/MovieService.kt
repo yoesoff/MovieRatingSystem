@@ -7,6 +7,7 @@ import com.yoesoff.movieratingsystem.entity.User
 import com.yoesoff.movieratingsystem.repository.MovieRepository
 import com.yoesoff.movieratingsystem.repository.RatingRepository
 import com.yoesoff.movieratingsystem.repository.ReviewRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 
 @Service
@@ -43,8 +44,11 @@ class MovieService(private val movieRepository: MovieRepository, private val rat
 
     fun getReviewsForMovie(movie: Movie): List<Review> = reviewRepository.findByMovie(movie)
 
+    /**
+     * Get top rated movies
+     */
     fun getTopRatedMovies(): List<Movie> {
-        return movieRepository.findAll() // Placeholder
+        return movieRepository.findTopRatedMovies(PageRequest.of(0, 5)) // Placeholder
     }
 
     fun addMovie(movie: Movie): Movie {

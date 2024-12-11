@@ -10,6 +10,8 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.ActiveProfiles
 import java.time.LocalDate
 
@@ -30,7 +32,7 @@ class MovieServiceTests {
     private lateinit var movieService: MovieService
 
     @Test
-    fun testGetAllMovies() {
+    fun testGetAllMoviesWithPagination() {
         // Arrange: Mock movie data
         val movie1 = Movie(
             id = 1L,
@@ -51,15 +53,18 @@ class MovieServiceTests {
             ratings = emptyList()
         )
         val movieList = listOf(movie1, movie2)
+        val pageable = PageRequest.of(0, 10)
+        val moviePage = PageImpl(movieList, pageable, movieList.size.toLong())
 
-        `when`(movieRepository.findAll()).thenReturn(movieList)
+        `when`(movieRepository.findAll(pageable)).thenReturn(moviePage)
 
         // Act: Call the service method
-        val result = movieService.getAllMovies()
+        val result = movieService.getAllMovies(0, 10)
 
         // Assert: Verify the result
-        assertEquals(2, result.size)
-        assertEquals("Inception", result[0].title)
-        assertEquals("Interstellar", result[1].title)
+        assertEquals(2, result.content.size)
+
+        assertEquals("Inception", result.content[0].title)
+        assertEquals("Interstellar", result.content[1].title)
     }
 }

@@ -7,13 +7,17 @@ import com.yoesoff.movieratingsystem.entity.User
 import com.yoesoff.movieratingsystem.repository.MovieRepository
 import com.yoesoff.movieratingsystem.repository.RatingRepository
 import com.yoesoff.movieratingsystem.repository.ReviewRepository
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 
 @Service
 class MovieService(private val movieRepository: MovieRepository, private val ratingRepository: RatingRepository, private val reviewRepository: ReviewRepository) {
 
-    fun getAllMovies(): List<Movie> = movieRepository.findAll()
+    fun getAllMovies(page: Int, size: Int): Page<Movie> {
+        val pageable = PageRequest.of(page, size)
+        return movieRepository.findAll(pageable)
+    }
 
     fun getMovieById(id: Long): Movie? = movieRepository.findById(id).orElse(null)
 

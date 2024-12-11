@@ -7,6 +7,7 @@ import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.*
+import org.springframework.data.domain.Page
 
 @RestController
 @RequestMapping("/users")
@@ -31,9 +32,12 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping
-    fun getAllUsers(): ResponseEntity<List<UserDTO>> {
-        val users = userService.getAllUsers()
-        val userDTOs = users.map { UserDTO(it.id, it.username, it.roles) }
+    fun getAllUsers(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "10") size: Int
+    ): ResponseEntity<Page<UserDTO>> {
+        val usersPage = userService.getAllUsers(page, size)
+        val userDTOs = usersPage.map { UserDTO(it.id, it.username, it.roles) }
         return ResponseEntity.ok(userDTOs)
     }
 

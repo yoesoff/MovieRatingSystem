@@ -2,6 +2,8 @@ package com.yoesoff.movieratingsystem.service
 
 import com.yoesoff.movieratingsystem.entity.User
 import com.yoesoff.movieratingsystem.repository.UserRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -23,13 +25,14 @@ class UserService(
         return userRepository.findById(id).orElse(null)
     }
 
-    /**
+/**
      * Get all users from the database.
      *
      * @return A list of all users.
      */
-    fun getAllUsers(): List<User> {
-        return userRepository.findAll()
+    fun getAllUsers(page: Int, size: Int): Page<User> {
+        val pageable = PageRequest.of(page, size)
+        return userRepository.findAll(pageable)
     }
 
     /**

@@ -5,6 +5,7 @@ import com.yoesoff.movieratingsystem.entity.Rating
 import com.yoesoff.movieratingsystem.entity.Review
 import com.yoesoff.movieratingsystem.service.MovieService
 import com.yoesoff.movieratingsystem.service.UserService
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
@@ -16,7 +17,10 @@ class MovieController(private val movieService: MovieService,
                       private val userService: UserService) {
 
     @GetMapping
-    fun getAllMovies(): List<Movie> = movieService.getAllMovies()
+    fun getAllMovies(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "10") size: Int
+    ): Page<Movie> = movieService.getAllMovies(page, size)
 
     @GetMapping("/{id}")
     fun getMovieById(@PathVariable id: Long): ResponseEntity<Movie> {

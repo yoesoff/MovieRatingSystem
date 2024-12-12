@@ -10,10 +10,12 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.verify
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.ActiveProfiles
 import java.time.LocalDate
+import java.util.Optional
 
 @ExtendWith(MockitoExtension::class)
 @ActiveProfiles("test")
@@ -67,4 +69,101 @@ class MovieServiceTests {
         assertEquals("Inception", result.content[0].title)
         assertEquals("Interstellar", result.content[1].title)
     }
+
+    @Test
+    fun testGetMovieById() {
+        // Arrange: Mock movie data
+        val movie = Movie(
+            id = 1L,
+            title = "Inception",
+            description = "A mind-bending thriller",
+            releaseDate = LocalDate.of(2010, 7, 16),
+            director = "Christopher Nolan",
+            genre = "Sci-Fi",
+            ratings = emptyList()
+        )
+
+        `when`(movieRepository.findById(1L)).thenReturn(Optional.of(movie))
+
+        // Act: Call the service method
+        val result = movieService.getMovieById(1L)
+
+        // Assert: Verify the result
+        assertEquals(movie, result)
+    }
+
+    @Test
+    fun testGetMovieByIdNotFound() {
+        // Arrange: Mock movie data
+        `when`(movieRepository.findById(1L)).thenReturn(Optional.empty())
+
+        // Act: Call the service method
+        val result = movieService.getMovieById(1L)
+
+        // Assert: Verify the result
+        assertEquals(null, result)
+    }
+
+    @Test
+    fun testSaveMovie() {
+        // Arrange: Mock movie data
+        val movie = Movie(
+            id = 1L,
+            title = "Inception",
+            description = "A mind-bending thriller",
+            releaseDate = LocalDate.of(2010, 7, 16),
+            director = "Christopher Nolan",
+            genre = "Sci-Fi",
+            ratings = emptyList()
+        )
+
+        `when`(movieRepository.save(movie)).thenReturn(movie)
+
+        // Act: Call the service method
+        val result = movieService.addMovie(movie)
+
+        // Assert: Verify the result
+        assertEquals(movie, result)
+    }
+
+    @Test
+    fun testDeleteMovie() {
+        // Arrange: Mock movie data
+        val movie = Movie(
+            id = 1L,
+            title = "Inception",
+            description = "A mind-bending thriller",
+            releaseDate = LocalDate.of(2010, 7, 16),
+            director = "Christopher Nolan",
+            genre = "Sci-Fi",
+            ratings = emptyList()
+        )
+
+        // Act: Call the service method
+        movieService.deleteMovie(movie)
+
+        // Assert: Verify the result
+        verify(movieRepository).delete(movie)
+    }
+
+    @Test
+    fun testDeleteMovieById() {
+        // Arrange: Mock movie data
+        val movie = Movie(
+            id = 1L,
+            title = "Inception",
+            description = "A mind-bending thriller",
+            releaseDate = LocalDate.of(2010, 7, 16),
+            director = "Christopher Nolan",
+            genre = "Sci-Fi",
+            ratings = emptyList()
+        )
+
+        // Act: Call the service method
+        movieService.deleteMovieById(1L)
+
+        // Assert: Verify the result
+        verify(movieRepository).deleteById(1L)
+    }
+
 }

@@ -58,4 +58,12 @@ class MovieService(private val movieRepository: MovieRepository, private val rat
     fun addMovie(movie: Movie): Movie {
         return movieRepository.save(movie)
     }
+
+    fun deleteMovie(movie: Movie) {
+        movieRepository.delete(movie)
+    }
+
+    fun deleteMovieById(id: Long) {
+        movieRepository.deleteById(id)
+    }
 }

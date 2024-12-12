@@ -38,7 +38,12 @@ data class User(
     val createdDate: LocalDateTime? = null,
 
     @LastModifiedDate
-    var lastModifiedDate: LocalDateTime? = null
+    var lastModifiedDate: LocalDateTime? = null,
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val ratings: List<Rating> = mutableListOf(),
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val reviews: List<Review> = mutableListOf()
 ) {
     // No-arg constructor required by Hibernate
     constructor() : this(

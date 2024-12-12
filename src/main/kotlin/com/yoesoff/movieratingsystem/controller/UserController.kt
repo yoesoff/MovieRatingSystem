@@ -25,7 +25,7 @@ class UserController(private val userService: UserService) {
     fun getUserById(@PathVariable id: Long): ResponseEntity<UserDTO> {
         val user = userService.getUserById(id)
         return if (user != null) {
-            ResponseEntity.ok(UserDTO(user.id, user.username, user.roles))
+            ResponseEntity.ok(UserDTO(user.id, user.username, user.roles, user.reviews, user.ratings))
         } else {
             ResponseEntity.notFound().build()
         }
@@ -37,7 +37,7 @@ class UserController(private val userService: UserService) {
         @RequestParam(defaultValue = "10") size: Int
     ): ResponseEntity<Page<UserDTO>> {
         val usersPage = userService.getAllUsers(page, size)
-        val userDTOs = usersPage.map { UserDTO(it.id, it.username, it.roles) }
+        val userDTOs = usersPage.map { UserDTO(it.id, it.username, it.roles, it.reviews, it.ratings) }
         return ResponseEntity.ok(userDTOs)
     }
 

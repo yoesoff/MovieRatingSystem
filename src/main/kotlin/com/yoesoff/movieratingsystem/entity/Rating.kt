@@ -7,7 +7,7 @@ import jakarta.persistence.*
 data class Rating(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    @ManyToOne val user: User,
+    @ManyToOne @JsonIgnore val user: User,
     @ManyToOne @JsonIgnore val movie: Movie,
     var rating: Int
 ) {

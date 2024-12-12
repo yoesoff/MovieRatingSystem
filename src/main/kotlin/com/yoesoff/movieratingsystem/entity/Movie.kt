@@ -19,7 +19,9 @@ data class Movie(
     val director: String,
     val genre: String,
     @OneToMany(mappedBy = "movie", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    val ratings: List<Rating> = mutableListOf()
+    val ratings: List<Rating> = mutableListOf(),
+    @OneToMany(mappedBy = "movie", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val reviews: List<Review> = mutableListOf()
 
 ) {
     // No-arg constructor required by Hibernate

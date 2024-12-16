@@ -107,4 +107,11 @@ class UserService(
     fun getUserFromUserDetails(userDetails: UserDetails): User? {
         return userRepository.findByUsername(userDetails.username)
     }
+
+    /**
+     * Get a user from the database using the given username.
+     */
+    fun findByUsername(username: String): User? {
+        return userRepository.findByUsername(username)
+    }
 }

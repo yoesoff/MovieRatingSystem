@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.*
 import org.springframework.data.domain.Page
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 
 @RestController
 @RequestMapping("/users")
@@ -55,6 +57,26 @@ class UserController(private val userService: UserService) {
     fun deleteUser(@PathVariable id: Long): ResponseEntity<Void> {
         return if (userService.deleteUser(id)) {
             ResponseEntity.noContent().build()
+        } else {
+            ResponseEntity.notFound().build()
+        }
+    }
+
+    @GetMapping("/me")
+    fun getLoggedInUser(): ResponseEntity<UserDTO> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userDetails = authentication.principal as UserDetails
+        val user = userService.findByUsername(userDetails.username)
+
+        return if (user != null) {
+            val userDTO = UserDTO(
+                id = user.id,
+                username = user.username,
+                roles = user.roles,
+                reviews = user.reviews,
+                ratings = user.ratings
+            )
+            ResponseEntity.ok(userDTO)
         } else {
             ResponseEntity.notFound().build()
         }

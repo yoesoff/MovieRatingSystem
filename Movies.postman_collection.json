@@ -11,7 +11,132 @@
 			"name": "Security",
 			"item": [
 				{
-					"name": "POST User",
+					"name": "JWT",
+					"item": [
+						{
+							"name": "Authenticate",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"username\":\"yusuf\", \"password\":\"yusuf123\"} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/authenticate",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Users (No Auth)",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "yusuf",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{passwordYusuf}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5dXN1ZiIsImV4cCI6MTczNDM1NDMyOSwiaWF0IjoxNzM0MzE4MzI5fQ.ajN4UmG9AYHrGC66FbOwhzv2Dhp2TPE08d5p2prP8V4",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base}}/users?page=0&size=3",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Movies JWT (Bearer)",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5dXN1ZiIsImV4cCI6MTczNDM1NDMyOSwiaWF0IjoxNzM0MzE4MzI5fQ.ajN4UmG9AYHrGC66FbOwhzv2Dhp2TPE08d5p2prP8V4",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base}}/api/movies?page=1&size=3",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"api",
+										"movies"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST User (No Auth Needed)",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -32,7 +157,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \n    \"username\": \"newuser\", \n    \"password\": \"password123\", \n    \"email\": \"newuser@example.com\" \n}\n",
+							"raw": "{ \n    \"username\": \"newuser5\", \n    \"password\": \"password123\", \n    \"email\": \"newuser2@example.com\",\n    \"roles\": [\"ADMIN\"] \n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -52,39 +177,124 @@
 					"response": []
 				},
 				{
-					"name": "GET User",
+					"name": "PUT User UPDATE",
 					"request": {
 						"auth": {
 							"type": "basic",
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{passwordYusuf}}",
+									"value": "password123",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "yusuf",
+									"value": "newuser5",
 									"type": "string"
 								}
 							]
 						},
-						"method": "GET",
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"username\": \"bambang\", \n    \"password\": \"bambang123\", \n    \"email\": \"newuser@example.com\",\n    \"roles\": [\"ADMIN\", \"USER\"]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{base}}/users",
+							"raw": "{{base}}/users/2",
 							"host": [
 								"{{base}}"
 							],
 							"path": [
-								"users"
+								"users",
+								"2"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "DOOR",
+					"name": "GET Users",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "yusuf",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{passwordYusuf}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/users?page=0&size=3",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET User By ID",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "yusuf",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{passwordYusuf}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/users/1",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Doc",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -104,13 +314,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base}}/users/door",
+							"raw": "{{base}}/api-docs/public",
 							"host": [
 								"{{base}}"
 							],
 							"path": [
-								"users",
-								"door"
+								"api-docs",
+								"public"
 							]
 						}
 					},
@@ -140,7 +350,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Inception\",\n    \"description\": \"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.\",\n    \"releaseDate\": \"2010-07-16\",\n    \"director\": \"Kokom\",\n    \"genre\": \"Horro\"\n}",
+					"raw": "{\n    \"title\": \"Lorem iupsum 5\",\n    \"description\": \"A Giant Hunter who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.\",\n    \"releaseDate\": \"2010-07-16\",\n    \"director\": \"John\",\n    \"genre\": \"Horro\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -167,13 +377,13 @@
 					"type": "basic",
 					"basic": [
 						{
-							"key": "password",
-							"value": "{{passwordYusuf}}",
+							"key": "username",
+							"value": "yusuf",
 							"type": "string"
 						},
 						{
-							"key": "username",
-							"value": "yusuf",
+							"key": "password",
+							"value": "{{passwordYusuf}}",
 							"type": "string"
 						}
 					]
@@ -181,13 +391,23 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base}}/api/movies",
+					"raw": "{{base}}/api/movies?page=1&size=3",
 					"host": [
 						"{{base}}"
 					],
 					"path": [
 						"api",
 						"movies"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "3"
+						}
 					]
 				}
 			},
@@ -283,7 +503,7 @@
 					"basic": [
 						{
 							"key": "password",
-							"value": "yusuf123",
+							"value": "{{passwordYusuf}}",
 							"type": "string"
 						},
 						{
@@ -297,7 +517,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"rating\": 1\n}",
+					"raw": "{\n    \"rating\": 3\n}",
 					"options": {
 						"raw": {
 							"language": "json"

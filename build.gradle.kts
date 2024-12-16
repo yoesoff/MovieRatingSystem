@@ -28,6 +28,11 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
+	implementation("javax.servlet:javax.servlet-api:4.0.1")
+
+	implementation("javax.xml.bind:jaxb-api:2.3.1")
+	implementation("org.glassfish.jaxb:jaxb-runtime:2.3.1")
 
 	runtimeOnly("com.mysql:mysql-connector-j")
 
@@ -36,6 +41,8 @@ dependencies {
 	testImplementation("org.mockito:mockito-core")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+
 }
 
 

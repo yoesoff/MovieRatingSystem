@@ -1,18 +1,23 @@
-package com.yoesoff.movieratingsystem.config
+package com.yoesoff.movieratingsystem.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.authentication.AuthenticationManager
-import com.yoesoff.movieratingsystem.service.CustomUserDetailsService
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
+@EnableWebSecurity
 class SecurityConfig(
-    private val customUserDetailsService: CustomUserDetailsService
+    private val jwtRequestFilter: JwtRequestFilter,
+    private val userDetailsService: UserDetailsService
 ) {
 
     @Bean
@@ -21,24 +26,21 @@ class SecurityConfig(
     }
 
     @Bean
-    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http
-            .csrf { it.disable() } // Disable CSRF for simplicity (not recommended for production)
-            .authorizeHttpRequests { auth ->
-                auth
-                    .requestMatchers("/api/movies" ,"/api/movies/**").authenticated() // Require authentication for /api/movies/
-                    .anyRequest().permitAll() // Allow all other requests
-            }
-            .httpBasic { } // Enable Basic Auth
-
-        return http.build()
+    fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager {
+        return authenticationConfiguration.authenticationManager
     }
 
-    // Configure authentication with CustomUserDetailsService
     @Bean
-    fun authenticationManager(http: HttpSecurity): AuthenticationManager {
-        val auth = http.getSharedObject(AuthenticationManagerBuilder::class.java)
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder())
-        return auth.build()
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+        http.csrf { csrf -> csrf.disable() }
+            .authorizeHttpRequests { authorize ->
+                authorize.requestMatchers("/authenticate", "/register", "/users").permitAll()
+                authorize.anyRequest().authenticated()
+            }
+            .sessionManagement { session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
+            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
+        return http.build()
     }
 }
